@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="EncodingScheme.cs" />
     <Compile Include="EncodingTriple.cs" />
+    <Compile Include="ProgramLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramEncoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,7 +58,13 @@
     <None Include="SamplePrograms\Addition.urm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="SamplePrograms\LessThan.urm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="SamplePrograms\Multiplication.urm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SamplePrograms\Substraction.urm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

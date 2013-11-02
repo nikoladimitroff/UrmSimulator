@@ -26,9 +26,9 @@ namespace UrmSimulator
 			//ProgramEncoder encoder = new ProgramEncoder();
 			//Console.WriteLine(encoder.Decode(encoder.Encode(File.ReadAllText(@"Program.urm"))));
 
-			UrmMachine machine = new UrmMachine(File.ReadAllText(@"SamplePrograms/Multiplication.urm"));
-			machine.Registers[1] = 10;
-			machine.Registers[2] = 5;
+			UrmMachine machine = ProgramLoader.Instance.LoadProgram("Substraction");
+			machine.Registers[1] = 34;
+			machine.Registers[2] = 17;
 			Console.WriteLine(machine.ExecuteProgram());
 		}
 

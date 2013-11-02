@@ -13,13 +13,9 @@ namespace UrmSimulator
 		private EncodingScheme scheme = new EncodingScheme();
 		private static char[] delimiters = new char[] { ' ' };
 
-		public BigInteger Encode(string program)
+		public BigInteger Encode(UrmMachine machine)
 		{
-			program = Regex.Replace(program, @"\(", " ");
-			program = Regex.Replace(program, @"\)|,", string.Empty);
-
-			string[] commands = program.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-			IList<BigInteger> commandEncodings = commands.Select(EncodeCommand).ToList();
+			IList<BigInteger> commandEncodings = machine.Commands.Select(EncodeCommand).ToList();
 
 			BigInteger result = this.scheme.EncodeTuple(commandEncodings);
 			return result;
@@ -46,7 +42,7 @@ namespace UrmSimulator
 								BigInteger.Parse(args[3]))) +
 						3;
 				default:
-					return -1;
+					throw new NotSupportedException("Can't encode a non-normal program!");
 			};
 		}
 

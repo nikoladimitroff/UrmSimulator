@@ -10,47 +10,34 @@ namespace UrmSimulator
 {
 	class UrmMachine
 	{
-		private string program;
+		private string[] commands;
 
 		public int[] Registers { get; private set; }
-		
-		public int Memory
+		public string[] Commands
 		{
-			get { return this.Registers.Length; }
+			get { return this.commands; }
 		}
 
-		public UrmMachine(string program)
+		public int Memory
 		{
-			string formatted = Regex.Replace(program, @"Z|S|T|J|\(|\)", string.Empty).Replace(',', ' ');
-			int max = 0;
-			string[] lines = formatted.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-			foreach (string  line in lines)
-			{
-				string[] numbers = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-				for (int i = 0; i < Math.Min(numbers.Length, 2); i++)
-				{
-					try
-					{
-						int num = int.Parse(numbers[i]);
-						if (num > max)
-							max = num;
-					}
-					catch (Exception)
-					{
-						
-					}
-				}
-			}
+			get { return this.Registers.Length - 1; }
+		}
 
-			this.program = program;
-			this.Registers = new int[max + 1];
+		internal UrmMachine(string[] commands, int maxMemory)
+		{
+			this.commands = commands;
+			this.Registers = new int[maxMemory + 1];
+		}
+
+		internal UrmMachine(UrmMachine machine)
+		{
+			this.commands = machine.commands;
+			this.Registers = new int[machine.Memory + 1];
 		}
 
 		public int ExecuteProgram()
 		{
 			char[] delimiters = new char[] { ' ' };
-
-			string[] commands = this.program.Split('\n');
 
 			for (int counter = 0; counter < commands.Length; counter++)
 			{
@@ -88,23 +75,29 @@ namespace UrmSimulator
 						counter = jump - 1;
 					break;
 				case '#':
-					string includeCommand = "#INCLUDE";
-					if (normalized.ToUpperInvariant().StartsWith(includeCommand))
-					{
-						UrmMachine machine = new UrmMachine(File.ReadAllText(@"SamplePrograms/" + normalized.Remove(0, includeCommand.Length).Trim() + ".urm"));
-						for (int i = 0; i < machine.Memory; i++)
-						{
-							machine.Registers[i] = this.Registers[i];
-						}
-						this.Registers[1] = machine.ExecuteProgram();
-					}
-					else
-					{
-						throw new NotImplementedException();
-					}
+					ExecuteMetaCommand(normalized);
 					break;
 			}
 			return counter;
-		} 
+		}
+
+		private void ExecuteMetaCommand(string normalized)
+		{
+			string includeCommand = "#INCLUDE";
+			if (normalized.ToUpperInvariant().StartsWith(includeCommand))
+			{
+				UrmMachine machine = ProgramLoader.Instance.LoadProgram(normalized.Remove(0, includeCommand.Length).Trim());
+				int memoryLimit = Math.Min(machine.Memory, this.Memory);
+				for (int i = 0; i < memoryLimit; i++)
+				{
+					machine.Registers[i] = this.Registers[i];
+				}
+				this.Registers[1] = machine.ExecuteProgram();
+			}
+			else
+			{
+				throw new NotImplementedException();
+			}
+		}
 	}
 }
