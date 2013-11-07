@@ -1,4 +1,4 @@
-﻿Z(3) // Try if any number in the inverval [x, x+y] equals y. If that's the case, then x < y.
+﻿Z(3)
 Z(4)
 T(1, 3)
 S(3)

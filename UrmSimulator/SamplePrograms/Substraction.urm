@@ -1,4 +1,4 @@
-﻿Z(3) // If x < y, then return 0 (jump to 12). Make sure to save the x in R4 else it will be lost when LessThan is executed
+﻿Z(3)
 T(1, 4)
 #INCLUDE LessThan
 J(1, 3, 5)
