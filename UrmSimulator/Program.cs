@@ -24,11 +24,12 @@ namespace UrmSimulator
 			//Console.WriteLine(scheme.DecodeTuple(scheme.EncodeTuple(list)).PrintCollection());
 
 			ProgramEncoder encoder = new ProgramEncoder();
-			Console.WriteLine(encoder.Encode(ProgramLoader.Instance.LoadProgram("LessThan")));
-			Console.WriteLine(encoder.Decode(encoder.Encode(ProgramLoader.Instance.LoadProgram("LessThan"))));
+			//Console.WriteLine(encoder.Encode(ProgramLoader.Instance.LoadProgram("Addition")));
+			//Console.WriteLine(encoder.Decode(encoder.Encode(ProgramLoader.Instance.LoadProgram("LessThan"))));
+			Console.WriteLine(encoder.Decode(2));
 			//Console.WriteLine(encoder.Decode(BigInteger.Parse("454626412573189436451231236178")));
 
-			//UrmMachine machine = ProgramLoader.Instance.LoadProgram("LessThan");
+			//UrmMachine machine = ProgramLoader.Instance.LoadProgram("Multiplication");
 			//machine.Registers[1] = 17;
 			//machine.Registers[2] = 20;
 			//Console.WriteLine(machine.ExecuteProgram());
